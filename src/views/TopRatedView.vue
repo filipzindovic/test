@@ -3,7 +3,7 @@
     <p v-if="topRatedMoviesDataIsLoading">Movie data loading...</p>
     <div v-else>
       <FilmCard
-        v-for="(item, index) in mappedTopRatedMovies"
+        v-for="(item, index) in topRatedMoviesData"
         class="top-rated__card"
         :key="index"
         :title="item.title"
@@ -17,7 +17,7 @@
 
 <script>
 import FilmCard from "@/components/FilmCard.vue";
-import { mapActions, mapState, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "TopRatedView",
@@ -29,7 +29,6 @@ export default {
     this.getTopRatedMoviesData();
   },
   computed: {
-    ...mapGetters(["mappedTopRatedMovies"]),
     ...mapState({
       topRatedMoviesData: (state) => state.topRatedMoviesData,
       topRatedMoviesDataIsLoading: (state) => state.topRatedMoviesDataIsLoading,

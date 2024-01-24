@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { makeRequest } from "@/utils/request";
-import { createWordedGenreList } from "@/utils/genre";
 import endpoints from "@/constants/endpoints";
 
 Vue.use(Vuex);
@@ -12,16 +11,6 @@ export default new Vuex.Store({
     topRatedMoviesDataIsLoading: false,
     movieGenreList: [],
     movieGenreListIsLoading: false,
-  },
-  getters: {
-    mappedTopRatedMovies(state) {
-      return state.topRatedMoviesData.map((movie) => ({
-        image: `${process.env.VUE_APP_API_ENDPOINT_IMAGE}${movie?.poster_path}`,
-        title: movie?.original_title,
-        overview: movie?.overview,
-        genres: createWordedGenreList(movie?.genre_ids, state.movieGenreList),
-      }));
-    },
   },
   mutations: {
     setTopRatedMoviesData(state, value) {
@@ -38,10 +27,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async getTopRatedMoviesData({ commit }) {
+    getTopRatedMoviesData({ commit }) {
       commit("setTopRatedMoviesDataIsLoading", true);
 
-      const response = await makeRequest({
+      const response = makeRequest({
         url: endpoints.TOP_RATED,
       });
 
